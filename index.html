@@ -94,23 +94,6 @@
         .agent-card p { font-size: 11px; font-weight: bold; color: #ff4655; }
         .discarded { opacity: 0.15; filter: grayscale(100%); transform: scale(0.95); }
         .discarded:hover { transform: scale(0.95); border-color: transparent; }
-        .victory-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85);
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-        .victory-overlay.show { display: flex; }
-        .victory-box { background: #1f2731; border: 3px solid; border-radius: 16px; padding: 32px; text-align: center; max-width: 360px; }
-        .victory-box.win { border-color: #22c55e; }
-        .victory-box.lose { border-color: #ff4655; }
-        .victory-box h2 { font-size: 28px; margin-bottom: 8px; }
-        .victory-box.win h2 { color: #22c55e; }
-        .victory-box.lose h2 { color: #ff4655; }
-        .victory-box p { color: #ccc; margin-bottom: 16px; }
     </style>
 </head>
 <body>
@@ -126,7 +109,6 @@
         </div>
 
         <div class="info-bar">
-            <div class="stat">Intentos: <span id="attemptCount">0</span></div>
             <div class="stat">Descartados: <span id="discardedCount">0</span></div>
             <div class="filter-section">
                 <label>Filtrar por rol:</label>
@@ -145,18 +127,10 @@
 
     <div class="board" id="board"></div>
 
-    <div class="victory-overlay" id="victoryOverlay">
-        <div class="victory-box" id="victoryBox">
-            <h2 id="victoryTitle"></h2>
-            <p id="victoryMsg"></p>
-            <button class="btn" onclick="resetGame()">Jugar de nuevo</button>
-        </div>
-    </div>
-
     <script>
         const apiUrl = 'https://valorant-api.com/v1/agents?isPlayableCharacter=true';
         let agents = [], myAgent = null;
-        let attempts = 0, discarded = 0;
+        let discarded = 0;
 
         async function initGame() {
             const res = await fetch(apiUrl);
@@ -182,8 +156,7 @@
         }
 
         function resetGame() {
-            attempts = 0; discarded = 0;
-            document.getElementById('victoryOverlay').classList.remove('show');
+            discarded = 0;
             document.getElementById('roleFilter').value = 'all';
             myAgent = agents[Math.floor(Math.random() * agents.length)];
             document.getElementById('my-agent-img').src = myAgent.displayIcon;
@@ -220,25 +193,12 @@
                 return;
             }
 
-            attempts++;
+            card.classList.add('discarded');
+            discarded++;
             updateStats();
-
-            if (agent.displayName === myAgent.displayName) {
-                const overlay = document.getElementById('victoryOverlay');
-                const box = document.getElementById('victoryBox');
-                box.className = 'victory-box win';
-                document.getElementById('victoryTitle').textContent = '¡Correcto!';
-                document.getElementById('victoryMsg').textContent = `¡Encontraste a ${agent.displayName} en ${attempts} intento(s)!`;
-                overlay.classList.add('show');
-            } else {
-                card.classList.add('discarded');
-                discarded++;
-                updateStats();
-            }
         }
 
         function updateStats() {
-            document.getElementById('attemptCount').textContent = attempts;
             document.getElementById('discardedCount').textContent = discarded;
         }
 
