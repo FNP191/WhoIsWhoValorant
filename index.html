@@ -3,113 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valorant Who's Who</title>
+    <title>Valorant Who's Who - FIX</title>
     <style>
-        :root {
-            --v-red: #ff4655;
-            --v-dark: #0f1923;
-            --v-blue: #1f2731;
-            --v-white: #ece8e1;
-        }
-
+        :root { --v-red: #ff4655; --v-dark: #0f1923; --v-blue: #1f2731; --v-white: #ece8e1; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: sans-serif; background: var(--v-dark); color: white; display: flex; flex-direction: column; align-items: center; padding: 10px; }
+        h1 { color: var(--v-red); margin: 15px 0; font-size: 1.2rem; text-align: center; }
         
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: var(--v-dark);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px;
-        }
-
-        h1 { color: var(--v-red); margin-bottom: 20px; text-transform: uppercase; font-size: 1.5rem; text-align: center; }
-
-        /* Contenedores Superiores */
-        .header-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            width: 100%;
-            max-width: 900px;
-            margin-bottom: 25px;
-        }
-
-        .panel {
-            background: var(--v-blue);
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 200px;
-        }
-
+        .header-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; max-width: 800px; margin-bottom: 20px; }
+        .panel { background: var(--v-blue); border: 1px solid #333; border-radius: 10px; padding: 12px; text-align: center; flex: 1; min-width: 160px; }
         .secret-panel { border: 2px solid var(--v-red); }
-        .secret-panel img { width: 70px; height: 70px; border-radius: 50%; background: var(--v-white); margin: 10px 0; }
-        .secret-panel h3 { font-size: 1.1rem; color: var(--v-red); }
-
-        .stats-panel { justify-content: center; gap: 8px; }
-        .stat { font-size: 0.9rem; color: #ccc; }
-        .stat span { color: var(--v-red); font-weight: bold; font-size: 1.1rem; }
-
-        select, .btn {
-            background: transparent;
-            border: 1px solid var(--v-red);
-            color: var(--v-red);
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-            width: 100%;
-            margin-top: 5px;
-        }
-
+        .secret-panel img { width: 60px; height: 60px; border-radius: 50%; background: var(--v-white); margin: 8px 0; }
+        
+        .stat { font-size: 0.8rem; margin: 4px 0; color: #ccc; }
+        .stat span { color: var(--v-red); font-weight: bold; font-size: 1rem; }
+        
+        select, .btn { width: 100%; padding: 8px; margin-top: 8px; border-radius: 4px; border: 1px solid var(--v-red); background: transparent; color: var(--v-red); font-weight: bold; cursor: pointer; }
         .btn:hover { background: var(--v-red); color: white; }
 
-        /* Tablero */
-        .board {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 12px;
-            width: 100%;
-            max-width: 1000px;
-        }
+        .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; width: 100%; max-width: 900px; }
+        .agent-card { background: var(--v-white); color: var(--v-dark); border-radius: 6px; padding: 6px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .agent-card img { width: 100%; border-radius: 4px; display: block; }
+        .agent-card h4 { font-size: 0.75rem; margin-top: 4px; text-transform: uppercase; }
+        .agent-card p { font-size: 0.65rem; color: var(--v-red); font-weight: bold; }
+        .discarded { opacity: 0.1; filter: grayscale(1); pointer-events: none; }
 
-        .agent-card {
-            background: var(--v-white);
-            color: var(--v-dark);
-            border-radius: 8px;
-            padding: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 3px solid transparent;
-        }
-
-        .agent-card:hover { border-color: var(--v-red); transform: scale(1.03); }
-        .agent-card img { width: 100%; height: auto; border-radius: 4px; display: block; }
-        .agent-card h4 { font-size: 0.85rem; margin-top: 5px; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; }
-        .agent-card p { font-size: 0.7rem; color: var(--v-red); font-weight: bold; }
-
-        .discarded { opacity: 0.1; filter: grayscale(1); transform: scale(0.9); pointer-events: none; }
-
-        /* Overlay Victoria */
-        .overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.9);
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
-        .win-box { background: var(--v-blue); padding: 40px; border-radius: 20px; border: 3px solid #22c55e; text-align: center; }
-        .win-box h2 { color: #22c55e; font-size: 2rem; margin-bottom: 10px; }
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 100; padding: 20px; }
+        .win-box { background: var(--v-blue); padding: 30px; border-radius: 15px; border: 2px solid #22c55e; text-align: center; width: 100%; max-width: 300px; }
+        .win-box h2 { color: #22c55e; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -118,17 +39,14 @@
 
     <div class="header-container">
         <div class="panel secret-panel">
-            <small>TU OBJETIVO</small>
-            <img id="sec-img" src="" alt="">
-            <h3 id="sec-name">...</h3>
+            <small>TU OBJETIVO</small><br>
+            <img id="sec-img" src="" alt="Cargando...">
+            <h3 id="sec-name">Cargando...</h3>
         </div>
-
-        <div class="panel stats-panel">
+        <div class="panel">
             <div class="stat">Intentos: <span id="att-count">0</span></div>
             <div class="stat">Tachados: <span id="disc-count">0</span></div>
-            <select id="role-sel" onchange="filterRole()">
-                <option value="all">TODOS LOS ROLES</option>
-            </select>
+            <select id="role-sel" onchange="filterRole()"><option value="all">TODOS LOS ROLES</option></select>
             <button class="btn" onclick="resetGame()">Reiniciar</button>
         </div>
     </div>
@@ -144,17 +62,20 @@
     </div>
 
     <script>
-        const api = 'https://valorant-api.com/v1/agents?isPlayableCharacter=true&language=es-ES';
+        // Usamos la URL sin el filtro de playable al principio para asegurar que la API responda
+        const api = 'https://valorant-api.com/v1/agents?language=es-ES&isPlayableCharacter=true';
         let agents = [], secret = null, tries = 0;
 
         async function start() {
             try {
                 const r = await fetch(api);
+                if (!r.ok) throw new Error("Error en API");
                 const d = await r.json();
-                agents = d.data;
                 
-                // Cargar Roles
-                const roles = [...new Set(agents.map(a => a.role.displayName))];
+                // Filtramos manualmente por seguridad
+                agents = d.data.filter(a => a.isPlayableCharacter);
+                
+                const roles = [...new Set(agents.map(a => a.role?.displayName).filter(Boolean))];
                 const sel = document.getElementById('role-sel');
                 roles.forEach(rol => {
                     let o = document.createElement('option');
@@ -164,7 +85,11 @@
 
                 render();
                 resetGame();
-            } catch (err) { alert("Error al conectar con Valorant API"); }
+            } catch (err) {
+                console.error(err);
+                document.getElementById('sec-name').innerText = "ERROR DE API";
+                alert("La API de Valorant está tardando en responder. Intenta recargar en 5 segundos.");
+            }
         }
 
         function render() {
@@ -173,12 +98,8 @@
             agents.forEach(a => {
                 const c = document.createElement('div');
                 c.className = 'agent-card';
-                c.dataset.role = a.role.displayName;
-                c.innerHTML = `
-                    <img src="${a.displayIcon}" onerror="this.src='https://via.placeholder.com/100?text=Agent'">
-                    <h4>${a.displayName}</h4>
-                    <p>${a.role.displayName}</p>
-                `;
+                c.dataset.role = a.role?.displayName || "";
+                c.innerHTML = `<img src="${a.displayIcon}"><h4>${a.displayName}</h4><p>${a.role?.displayName || ""}</p>`;
                 c.onclick = () => hit(c, a);
                 b.appendChild(c);
             });
@@ -192,14 +113,13 @@
         }
 
         function resetGame() {
+            if (agents.length === 0) return;
             tries = 0;
             document.getElementById('win-overlay').style.display = 'none';
             document.getElementById('role-sel').value = 'all';
-            
             secret = agents[Math.floor(Math.random() * agents.length)];
             document.getElementById('sec-img').src = secret.displayIcon;
             document.getElementById('sec-name').innerText = secret.displayName;
-
             document.querySelectorAll('.agent-card').forEach(c => {
                 c.classList.remove('discarded');
                 c.style.display = 'block';
@@ -209,7 +129,7 @@
 
         function hit(card, agent) {
             if (agent.uuid === secret.uuid) {
-                document.getElementById('win-txt').innerText = `Encontraste a ${agent.displayName} en ${tries + 1} clics.`;
+                document.getElementById('win-txt').innerText = `Era ${agent.displayName}. Usaste ${tries + 1} clics.`;
                 document.getElementById('win-overlay').style.display = 'flex';
             } else {
                 card.classList.add('discarded');
