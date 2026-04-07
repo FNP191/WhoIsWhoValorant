@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Quién es quién? - Valorant</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f1923;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 { color: #ff4655; text-transform: uppercase; letter-spacing: 2px; font-size: 22px; margin-bottom: 16px; }
+        .top-bar {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .my-agent-container {
+            background: #1f2731;
+            border: 2px solid #ff4655;
+            padding: 16px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 180px;
+        }
+        .my-agent-container img { width: 80px; height: 80px; border-radius: 50%; background: #ece8e1; }
+        .my-agent-container h2 { font-size: 13px; color: #aaa; margin-bottom: 8px; }
+        .my-agent-container h3 { font-size: 15px; text-transform: uppercase; margin: 6px 0 2px; }
+        .my-agent-container p { font-size: 12px; font-weight: bold; color: #ff4655; }
+        .info-bar {
+            background: #1f2731;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 200px;
+        }
+        .stat { font-size: 13px; color: #aaa; }
+        .stat span { color: #ff4655; font-weight: bold; font-size: 16px; }
+        .filter-section { font-size: 13px; color: #aaa; display: flex; flex-direction: column; gap: 6px; }
+        .filter-section label { color: #ccc; font-size: 12px; }
+        .filter-section select {
+            background: #0f1923; color: white; border: 1px solid #ff4655;
+            border-radius: 6px; padding: 4px 8px; font-size: 13px; cursor: pointer;
+        }
+        .buttons { display: flex; flex-direction: column; gap: 8px; }
+        .btn {
+            background: transparent;
+            border: 2px solid #ff4655;
+            color: #ff4655;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .btn:hover { background: #ff4655; color: white; }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .agent-card {
+            background: #ece8e1;
+            color: #0f1923;
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .agent-card:hover { transform: translateY(-3px); border-color: #ff4655; }
+        .agent-card img { width: 100%; height: auto; border-radius: 5px; }
+        .agent-card h3 { margin: 6px 0 2px; font-size: 13px; text-transform: uppercase; }
+        .agent-card p { font-size: 11px; font-weight: bold; color: #ff4655; }
+        .discarded { opacity: 0.15; filter: grayscale(100%); transform: scale(0.95); }
+        .discarded:hover { transform: scale(0.95); border-color: transparent; }
+        .victory-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        .victory-overlay.show { display: flex; }
+        .victory-box { background: #1f2731; border: 3px solid; border-radius: 16px; padding: 32px; text-align: center; max-width: 360px; }
+        .victory-box.win { border-color: #22c55e; }
+        .victory-box.lose { border-color: #ff4655; }
+        .victory-box h2 { font-size: 28px; margin-bottom: 8px; }
+        .victory-box.win h2 { color: #22c55e; }
+        .victory-box.lose h2 { color: #ff4655; }
+        .victory-box p { color: #ccc; margin-bottom: 16px; }
+    </style>
+</head>
+<body>
+
+    <h1>¿Quién es quién? Valorant</h1>
+
+    <div class="top-bar">
+        <div class="my-agent-container">
+            <h2>Tu Agente Secreto</h2>
+            <img id="my-agent-img" src="" alt="">
+            <h3 id="my-agent-name">Cargando...</h3>
+            <p id="my-agent-role"></p>
+        </div>
+
+        <div class="info-bar">
+            <div class="stat">Intentos: <span id="attemptCount">0</span></div>
+            <div class="stat">Descartados: <span id="discardedCount">0</span></div>
+            <div class="filter-section">
+                <label>Filtrar por rol:</label>
+                <select id="roleFilter" onchange="applyFilter()">
+                    <option value="all">Todos</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="info-bar">
+            <div class="buttons">
+                <button class="btn" onclick="resetGame()">Reiniciar partida</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="board" id="board"></div>
+
+    <div class="victory-overlay" id="victoryOverlay">
+        <div class="victory-box" id="victoryBox">
+            <h2 id="victoryTitle"></h2>
+            <p id="victoryMsg"></p>
+            <button class="btn" onclick="resetGame()">Jugar de nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = 'https://valorant-api.com/v1/agents?isPlayableCharacter=true';
+        let agents = [], myAgent = null;
+        let attempts = 0, discarded = 0;
+
+        async function initGame() {
+            const res = await fetch(apiUrl);
+            const data = await res.json();
+            agents = data.data;
+            populateRoleFilter();
+            resetGame();
+        }
+
+        function populateRoleFilter() {
+            const roles = [...new Set(agents.map(a => a.role.displayName))].sort();
+            const sel = document.getElementById('roleFilter');
+            roles.forEach(r => {
+                const opt = document.createElement('option');
+                opt.value = r; opt.textContent = r;
+                sel.appendChild(opt);
+            });
+        }
+
+        function applyFilter() {
+            const role = document.getElementById('roleFilter').value;
+            renderBoard(role);
+        }
+
+        function resetGame() {
+            attempts = 0; discarded = 0;
+            document.getElementById('victoryOverlay').classList.remove('show');
+            document.getElementById('roleFilter').value = 'all';
+            myAgent = agents[Math.floor(Math.random() * agents.length)];
+            document.getElementById('my-agent-img').src = myAgent.displayIcon;
+            document.getElementById('my-agent-name').textContent = myAgent.displayName;
+            document.getElementById('my-agent-role').textContent = myAgent.role.displayName;
+            renderBoard('all');
+            updateStats();
+        }
+
+        function renderBoard(roleFilter) {
+            const board = document.getElementById('board');
+            board.innerHTML = '';
+            const filtered = roleFilter && roleFilter !== 'all'
+                ? agents.filter(a => a.role.displayName === roleFilter)
+                : agents;
+
+            filtered.forEach(agent => {
+                const card = document.createElement('div');
+                card.className = 'agent-card';
+                card.dataset.name = agent.displayName;
+                card.innerHTML = `<img src="${agent.displayIcon}" alt="${agent.displayName}"><h3>${agent.displayName}</h3><p>${agent.role.displayName}</p>`;
+                card.onclick = () => handleCardClick(card, agent);
+                board.appendChild(card);
+            });
+            discarded = 0;
+            updateStats();
+        }
+
+        function handleCardClick(card, agent) {
+            if (card.classList.contains('discarded')) {
+                card.classList.remove('discarded');
+                discarded = Math.max(0, discarded - 1);
+                updateStats();
+                return;
+            }
+
+            attempts++;
+            updateStats();
+
+            if (agent.displayName === myAgent.displayName) {
+                const overlay = document.getElementById('victoryOverlay');
+                const box = document.getElementById('victoryBox');
+                box.className = 'victory-box win';
+                document.getElementById('victoryTitle').textContent = '¡Correcto!';
+                document.getElementById('victoryMsg').textContent = `¡Encontraste a ${agent.displayName} en ${attempts} intento(s)!`;
+                overlay.classList.add('show');
+            } else {
+                card.classList.add('discarded');
+                discarded++;
+                updateStats();
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('attemptCount').textContent = attempts;
+            document.getElementById('discardedCount').textContent = discarded;
+        }
+
+        initGame();
+    </script>
+
+</body>
+</html>
