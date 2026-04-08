@@ -23,517 +23,580 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 80vh;
-            text-align: center;
+            padding: 40px 0;
             width: 100%;
         }
 
-        .menu-title {
-            font-size: 3rem;
-            color: #ff4655;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 0px rgba(255, 70, 85, 0.2);
-        }
+        .menu-title { font-size: 3rem; color: #ff4655; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; }
 
         .mode-container {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            width: 100%;
             justify-content: center;
         }
 
         .mode-card {
             background: #1f2731;
             border: 2px solid #333;
-            padding: 30px;
+            padding: 20px;
             border-radius: 15px;
-            width: 280px;
             cursor: pointer;
             transition: 0.3s;
+            text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            justify-content: space-between;
         }
+        .mode-card:hover { border-color: #ff4655; transform: translateY(-5px); }
+        .mode-card h2 { color: #ff4655; margin: 10px 0; font-size: 1.2rem; text-transform: uppercase; }
+        .mode-card p { font-size: 0.9rem; color: #ccc; margin-bottom: 15px; line-height: 1.4; }
 
-        .mode-card:hover {
-            border-color: #ff4655;
-            transform: translateY(-10px);
-            background: #262f3a;
-        }
-
-        .mode-card h2 { color: #ff4655; text-transform: uppercase; font-size: 1.2rem;}
-        .mode-card p { font-size: 0.9rem; color: #aaa; line-height: 1.4; }
-
-        /* --- Interfaz de Juego --- */
-        #game-interface {
+        /* --- Interfaz General --- */
+        #game-interface, #minigame-interface {
             display: none;
             width: 100%;
-            max-width: 1100px;
+            max-width: 900px;
         }
 
-        .header-game {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-
-        h1 { color: #ff4655; text-transform: uppercase; letter-spacing: 2px; text-align: center; }
-
-        .top-bar {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 20px;
-            width: 100%;
-        }
+        .header-game { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 
         .card-panel {
             background: #1f2731;
             border: 2px solid #333;
-            padding: 15px;
+            padding: 20px;
             border-radius: 10px;
             text-align: center;
-            min-width: 220px;
-            height: fit-content;
+            flex: 1;
+            min-width: 280px;
         }
 
-        /* Contenedor para el círculo del agente */
+        .ask-panel-container {
+            border: 1px solid #ff4655;
+            border-radius: 10px;
+            padding: 20px;
+            background: #101822;
+            width: 100%;
+        }
+
         .secret-agent-container {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
+            width: 120px; height: 120px;
             background: #ece8e1;
-            margin: 10px auto;
+            margin: 15px auto;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 2px solid #333;
+            border: 4px solid #ff4655;
         }
+        .secret-agent-img { width: 100%; display: none; }
+        .q-mark { font-size: 60px; color: #0f1923; font-weight: bold; }
 
-        .secret-agent-img { width: 100%; height: 100%; object-fit: cover; display: none; }
-        .question-mark { font-size: 40px; color: #0f1923; font-weight: bold; display: block; }
-
-        .questions-panel {
-            background: #1f2731;
-            border: 1px solid #ff4655;
+        #game-message, #mini-msg {
             padding: 15px;
-            border-radius: 10px;
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .status-container {
-            display: flex;
-            justify-content: space-around;
-            background: #0f1923;
-            padding: 10px;
-            border-radius: 8px;
             margin-bottom: 15px;
-            border: 1px solid #333;
-        }
-
-        .stat-box { text-align: center; flex: 1; }
-        .stat-val { display: block; font-size: 20px; font-weight: bold; color: #ff4655; }
-        .stat-label { font-size: 10px; text-transform: uppercase; color: #888; }
-
-        #game-message {
-            padding: 10px;
             border-radius: 5px;
-            margin-bottom: 10px;
-            text-align: center;
             font-weight: bold;
+            text-align: center;
             display: none;
         }
         .msg-win { background: #4caf50; color: white; display: block !important; }
         .msg-lose { background: #ff4655; color: white; display: block !important; }
+        .msg-info { background: #0f1923; border: 1px solid #ff4655; color: white; display: block !important; }
 
-        .question-controls { display: flex; flex-direction: column; gap: 10px; }
-        .row { display: flex; gap: 10px; }
-
-        select {
-            background: #0f1923;
-            color: white;
-            border: 1px solid #ff4655;
-            padding: 8px;
-            border-radius: 5px;
-            flex: 1;
-            cursor: pointer;
+        .stats-grid-img {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            border-bottom: 1px solid #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
         }
-
-        .history-container {
-            margin-top: 15px;
-            max-height: 120px;
-            overflow-y: auto;
-            background: #0f1923;
-            padding: 8px;
-            border-radius: 5px;
-            font-size: 12px;
-            border: 1px solid #333;
-        }
-        .history-item {
-            padding: 4px 0;
-            border-bottom: 1px solid #222;
-            display: flex;
-            justify-content: space-between;
-        }
-        .hist-yes { color: #4caf50; font-weight: bold; }
-        .hist-no { color: #ff4655; font-weight: bold; }
+        .stat-box-img { text-align: center; border-right: 1px solid #333; }
+        .stat-box-img:last-child { border-right: none; }
+        .stat-label-img { font-size: 0.7rem; text-transform: uppercase; color: #888; }
+        .stat-val-img { font-size: 1.5rem; color: #ff4655; font-weight: bold; }
 
         .board {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
             width: 100%;
         }
+
         .agent-card {
             background: #ece8e1;
-            color: #0f1923;
-            border-radius: 8px;
-            padding: 10px;
+            padding: 8px;
+            border-radius: 5px;
             text-align: center;
             cursor: pointer;
-            transition: 0.2s;
-            border: 3px solid transparent;
+            color: #0f1923;
+            font-size: 0.8rem;
         }
-        .agent-card:hover { border-color: #ff4655; }
-        .agent-card img { width: 100%; border-radius: 4px; pointer-events: none; }
-        .agent-card h3 { font-size: 13px; margin-top: 5px; text-transform: uppercase; pointer-events: none; }
-        
-        /* Modificado para permitir desmarcar sin bloquear clics */
-        .discarded { opacity: 0.15 !important; filter: grayscale(100%); }
+        .discarded { opacity: 0.15; filter: grayscale(100%); }
 
-        .btn {
-            background: transparent;
+        #history-list { 
+            margin-top: 15px; 
+            width: 100%; 
+            max-height: 150px; 
+            overflow-y: auto; 
+            border-top: 1px solid #1f2731;
+        }
+        .history-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 10px;
+            background: #0b1219;
+            border-bottom: 1px solid #1f2731;
+            font-size: 0.85rem;
+        }
+        .res-si { color: #4caf50; font-weight: bold; }
+        .res-no { color: #ff4655; font-weight: bold; }
+
+        .mini-card {
+            background: #1f2731;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
             border: 2px solid #ff4655;
-            color: #ff4655;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .btn:hover:not(:disabled) { background: #ff4655; color: white; }
-        .btn:disabled { border-color: #555; color: #555; cursor: not-allowed; }
+        .clue-box { background: #0f1923; padding: 20px; border-radius: 8px; margin: 15px 0; font-size: 1.2rem; width: 100%; }
+        .mini-img { max-width: 100%; height: auto; max-height: 300px; border-radius: 8px; margin-bottom: 15px; border: 2px solid #333; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 15px; }
         
-        .selecting-mode .agent-card {
-            border: 2px dashed #ff4655;
-            animation: pulse 1.5s infinite;
+        .btn {
+            background: transparent; border: 1px solid #ff4655; color: #ff4655;
+            padding: 10px 20px; border-radius: 5px; cursor: pointer;
+            font-weight: bold; text-transform: uppercase;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+        .btn:hover { background: #ff4655; color: white; }
+        .btn-wide { width: 100%; padding: 12px; }
+
+        input[type="text"] {
+            width: 100%; padding: 12px; background: #0f1923; border: 1px solid #ff4655;
+            color: white; border-radius: 5px; margin-bottom: 10px; text-align: center;
         }
+
+        .footer-bar {
+            margin-top: 50px;
+            padding: 20px;
+            border-top: 1px solid #333;
+            width: 100%;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .footer-bar a { color: #ff4655; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="main-menu">
-        <h1 class="menu-title">Valorant Guess</h1>
-        <div class="mode-container">
-            <div class="mode-card" onclick="startGame('classic')">
-                <h2>Modo Clásico</h2>
-                <p>Elige tu propio agente. Ahora puedes marcar y desmarcar agentes del tablero.</p>
-                <button class="btn btn-jugar" style="margin-top: auto;">Cargando...</button>
-            </div>
-            <div class="mode-card" onclick="startGame('ask')">
-                <h2>Modo Desafío</h2>
-                <p>Adivina el agente oculto de la IA mediante preguntas de atributos.</p>
-                <button class="btn btn-jugar" style="margin-top: auto;">Cargando...</button>
-            </div>
-        </div>
+        <h1 class="menu-title">VALORANT MINIGAMES</h1>
+        <div class="mode-container" id="menu-grid"></div>
     </div>
 
     <div id="game-interface">
         <div class="header-game">
-            <button class="btn" onclick="backToMenu()">← Menú Principal</button>
-            <h1 id="mode-title">JUGANDO</h1>
-            <div style="width: 160px;"></div>
+            <button class="btn" onclick="backToMenu()">← Menú</button>
+            <h2 id="display-mode">MODO</h2>
+            <div style="width:80px"></div>
         </div>
 
-        <div class="top-bar">
-            <div class="card-panel">
-                <h2 id="title-secret">Tu Agente</h2>
-                <div id="secret-info">
-                    <div class="secret-agent-container">
-                        <span id="q-mark" class="question-mark">?</span>
-                        <img id="my-agent-img" class="secret-agent-img" src="" alt="">
-                    </div>
-                    <h3 id="my-agent-name">Selecciona uno</h3>
+        <div style="display:flex; gap:20px; flex-wrap:wrap; align-items: flex-start;">
+            <div class="card-panel" style="max-width: 300px;">
+                <h3 id="panel-title" style="margin-bottom: 15px;">Agente Secreto</h3>
+                <div class="secret-agent-container">
+                    <span id="q-mark" class="q-mark">?</span>
+                    <img id="secret-img" class="secret-agent-img" src="">
                 </div>
-                <div id="classic-controls" style="display: none; margin-top: 10px;">
-                    <button class="btn" id="btn-pick" onclick="enableSelection()" style="width: 100%; font-size: 11px;">Elegir mi Agente</button>
+                <h3 id="secret-name" style="margin-bottom: 15px;">???</h3>
+
+                <div id="classic-pick-zone" style="display:none;">
+                    <button class="btn btn-wide" onclick="startPicking()">Elegir mi Agente</button>
                 </div>
-                <button class="btn" style="margin-top: 10px; width: 100%; font-size: 11px;" onclick="resetGame()">Reiniciar Tablero</button>
+
+                <div id="reset-zone" style="display:none;">
+                    <button class="btn btn-wide" style="background:#ff4655; color:white;" onclick="resetGame()">REINICIAR TABLERO</button>
+                </div>
             </div>
 
-            <div class="questions-panel" id="questions-panel">
+            <div id="ask-interface-container" class="ask-panel-container" style="flex: 2; display: none;">
+                <div class="stats-grid-img">
+                    <div class="stat-box-img">
+                        <div class="stat-label-img">Preguntas</div>
+                        <div class="stat-val-img"><span id="stat-q">0</span> / 10</div>
+                    </div>
+                    <div class="stat-box-img">
+                        <div class="stat-label-img">Fallos</div>
+                        <div class="stat-val-img"><span id="stat-f">0</span> / 3</div>
+                    </div>
+                </div>
+
                 <div id="game-message"></div>
 
-                <div class="status-container">
-                    <div class="stat-box">
-                        <span class="stat-label">Preguntas</span>
-                        <span id="q-count" class="stat-val">0 / 10</span>
-                    </div>
-                    <div class="stat-box" style="border-left: 1px solid #333;">
-                        <span class="stat-label">Fallos</span>
-                        <span id="fail-count" class="stat-val">0 / 3</span>
-                    </div>
-                </div>
-                
-                <div id="controls-area" class="question-controls">
-                    <div class="row">
-                        <select id="question-category" onchange="updateOptions()">
+                <div id="ask-controls">
+                    <div style="display:flex; gap:10px; margin-bottom:15px;">
+                        <select id="cat-sel" onchange="updateValOptions()" style="flex:1; padding:12px; background:#0f1923; color:white; border:1px solid #333; border-radius: 5px;">
                             <option value="role">¿Su Rol es...?</option>
-                            <option value="gender">¿Su Género es...?</option>
-                            <option value="year">¿Fue añadido en...?</option>
                             <option value="country">¿Es de...?</option>
+                            <option value="gender">¿Es Género...?</option>
                         </select>
-                        <select id="question-value"></select>
+                        <select id="val-sel" style="flex:1; padding:12px; background:#0f1923; color:white; border:1px solid #333; border-radius: 5px;"></select>
                     </div>
-                    <button class="btn" id="ask-btn" onclick="askQuestion()">Preguntar Atributo</button>
+                    <button class="btn btn-wide" onclick="askQuestion()">PREGUNTAR ATRIBUTO</button>
                 </div>
 
-                <div id="reset-area" style="display:none; margin-top:10px;">
-                    <button class="btn" style="width: 100%; background: #ff4655; color: white;" onclick="resetGame()">Jugar Otra Vez</button>
-                </div>
-
-                <div class="history-container" id="history"></div>
+                <div id="history-list"></div>
             </div>
         </div>
 
         <div class="board" id="board"></div>
     </div>
 
-    <script>
-        const apiUrl = 'https://valorant-api.com/v1/agents?isPlayableCharacter=true&language=es-ES';
-        let agents = [], myAgent = null;
-        let currentGameMode = 'classic';
-        let isSelectingAgent = false;
-        let qCount = 0, failCount = 0, gameOver = false, isReady = false;
+    <div id="minigame-interface">
+        <div class="header-game">
+            <button class="btn" onclick="backToMenu()">← Menú</button>
+            <h2 id="mini-title-display">MINIJUEGO</h2>
+            <div style="width:80px"></div>
+        </div>
+        <div class="mini-card">
+            <div id="mini-msg"></div>
+            <img id="mini-img" class="mini-img" style="display:none;">
+            <div id="mini-clue" class="clue-box"></div>
+            
+            <div id="mini-input-zone" style="display:none; width: 100%;">
+                <input type="text" id="mini-input" placeholder="Nombre del agente/skin...">
+                <button class="btn" style="width:100%" onclick="checkMiniAnswer()">Responder</button>
+            </div>
+            
+            <div id="mini-options" class="options-grid" style="display:none;"></div>
+            
+            <button id="btn-next" class="btn" style="width:100%; margin-top:20px; display:none; background:#ff4655; color:white;" onclick="loadMiniRound()">Siguiente →</button>
+        </div>
+    </div>
 
-        const agentData = {
-            "Jett": { g: "Femenino", y: "2020", c: "Corea del Sur" }, "Raze": { g: "Femenino", y: "2020", c: "Brasil" },
-            "Breach": { g: "Masculino", y: "2020", c: "Suecia" }, "Omen": { g: "Robot", y: "2020", c: "Desconocido" },
-            "Brimstone": { g: "Masculino", y: "2020", c: "Estados Unidos" }, "Phoenix": { g: "Masculino", y: "2020", c: "Reino Unido" },
-            "Sage": { g: "Femenino", y: "2020", c: "China" }, "Sova": { g: "Masculino", y: "2020", c: "Rusia" },
-            "Viper": { g: "Femenino", y: "2020", c: "Estados Unidos" }, "Cypher": { g: "Masculino", y: "2020", c: "Marruecos" },
-            "Reyna": { g: "Femenino", y: "2020", c: "México" }, "Killjoy": { g: "Femenino", y: "2020", c: "Alemania" },
-            "Skye": { g: "Femenino", y: "2020", c: "Australia" }, "Yoru": { g: "Masculino", y: "2021", c: "Japón" },
-            "Astra": { g: "Femenino", y: "2021", c: "Ghana" }, "KAY/O": { g: "Robot", y: "2021", c: "Desconocido" },
-            "Chamber": { g: "Masculino", y: "2021", c: "Francia" }, "Neon": { g: "Femenino", y: "2022", c: "Filipinas" },
-            "Fade": { g: "Femenino", y: "2022", c: "Turquía" }, "Harbor": { g: "Masculino", y: "2022", c: "India" },
-            "Gekko": { g: "Masculino", y: "2023", c: "Estados Unidos" }, "Deadlock": { g: "Femenino", y: "2023", c: "Noruega" },
-            "Iso": { g: "Masculino", y: "2023", c: "China" }, "Clove": { g: "Femenino", y: "2024", c: "Escocia" },
-            "Vyse": { g: "Robot", y: "2024", c: "Desconocido" }, "Veto": { g: "Masculino", y: "2025", c: "Senegal" },
-            "Tejo": { g: "Masculino", y: "2025", c: "Colombia" },
-            "Miks": { g: "Masculino", y: "2026", c: "Croacia" }
+    <footer class="footer-bar">
+        MADE BY FNP191 | <a href="https://discord.gg/ejemplo" target="_blank">DISCORD</a>
+    </footer>
+
+    <script>
+        let agents = [], maps = [], skins = [];
+        let myAgent = null, mode = '', gameOver = false, isPicking = false;
+        let qCount = 0, fCount = 0;
+        let miniAns = '', miniMode = '';
+
+        const agentExtra = {
+            "Jett": { c: "Corea del Sur", g: "Femenino" }, "Raze": { c: "Brasil", g: "Femenino" },
+            "Breach": { c: "Suecia", g: "Masculino" }, "Omen": { c: "Desconocido", g: "No Humano" },
+            "Brimstone": { c: "Estados Unidos", g: "Masculino" }, "Phoenix": { c: "Reino Unido", g: "Masculino" },
+            "Sage": { c: "China", g: "Femenino" }, "Sova": { c: "Rusia", g: "Masculino" },
+            "Viper": { c: "Estados Unidos", g: "Femenino" }, "Cypher": { c: "Marruecos", g: "Masculino" },
+            "Reyna": { c: "México", g: "Femenino" }, "Killjoy": { c: "Alemania", g: "Femenino" },
+            "Skye": { c: "Australia", g: "Femenino" }, "Yoru": { c: "Japón", g: "Masculino" },
+            "Astra": { c: "Ghana", g: "Femenino" }, "KAY/O": { c: "Desconocido", g: "No Humano" },
+            "Chamber": { c: "Francia", g: "Masculino" }, "Neon": { c: "Filipinas", g: "Femenino" },
+            "Fade": { c: "Turquía", g: "Femenino" }, "Harbor": { c: "India", g: "Masculino" },
+            "Gekko": { c: "Estados Unidos", g: "Masculino" }, "Deadlock": { c: "Noruega", g: "Femenino" },
+            "Iso": { c: "China", g: "Masculino" }, "Clove": { c: "Escocia", g: "No Binario" },
+            "Vyse": { c: "Desconocido", g: "Femenino" }
         };
 
-        async function initGame() {
+        async function init() {
             try {
-                const res = await fetch(apiUrl);
-                const data = await res.json();
-                agents = data.data.filter(a => agentData[a.displayName]);
-                updateOptions();
-                isReady = true;
-                document.querySelectorAll('.btn-jugar').forEach(btn => btn.textContent = "Jugar");
-            } catch (e) { console.error("Error al cargar agentes", e); }
+                const [rA, rM, rS] = await Promise.all([
+                    fetch('https://valorant-api.com/v1/agents?isPlayableCharacter=true&language=es-ES'),
+                    fetch('https://valorant-api.com/v1/maps?language=es-ES'),
+                    fetch('https://valorant-api.com/v1/weapons/skins?language=es-ES')
+                ]);
+                agents = (await rA.json()).data;
+                maps = (await rM.json()).data.filter(m => m.displayIcon && m.displayName !== "District" && m.displayName !== "Kasbah" && m.displayName !== "Piazza" && m.displayName !== "Drift" && m.displayName !== "Glitch");
+                skins = (await rS.json()).data.filter(s => s.displayIcon && !s.displayName.includes("Standard"));
+                
+                document.getElementById('menu-grid').innerHTML = `
+                    <div class="mode-card" onclick="startGame('classic')">
+                        <h2>Modo Clásico</h2>
+                        <p>Elige tu propio agente secreto. Ahora puedes marcar y desmarcar agentes del tablero.</p>
+                        <button class="btn">JUGAR</button>
+                    </div>
+                    <div class="mode-card" onclick="startGame('ask')">
+                        <h2>Adivina el Agente</h2>
+                        <p>Adivina el agente secreto de la IA mediante preguntas de atributos.</p>
+                        <button class="btn">JUGAR</button>
+                    </div>
+                    <div class="mode-card" onclick="startMini('agente')">
+                        <h2>¿Quién es?</h2>
+                        <p>Lee la descripción oficial y adivina de qué agente se trata.</p>
+                        <button class="btn">JUGAR</button>
+                    </div>
+                    <div class="mode-card" onclick="startMini('habilidad')">
+                        <h2>Habilidades</h2>
+                        <p>¿Conoces todos los nombres de las habilidades? Ponlo a prueba.</p>
+                        <button class="btn">JUGAR</button>
+                    </div>
+                    <div class="mode-card" onclick="startMini('arma')">
+                        <h2>Armas</h2>
+                        <p>Adivina el arma basándote en su precio y capacidad de balas.</p>
+                        <button class="btn">JUGAR</button>
+                    </div>
+                    <div class="mode-card" onclick="startMini('mapa')">
+                        <h2>Mapas</h2>
+                        <p>Identifica el mapa de Valorant solo por su icono de radar.</p>
+                        <button class="btn">JUGAR</button>
+                    </div>
+                    <div class="mode-card" onclick="startMini('skin')">
+                        <h2>Skins</h2>
+                        <p>¿Eres un experto en la tienda? Adivina el nombre de la skin.</p>
+                        <button class="btn">JUGAR</button>
+                    </div>
+                    <div class="mode-card" onclick="startMini('trivia')">
+                        <h2>Trivia</h2>
+                        <p>Preguntas sobre lore, nombres reales y mecánicas del juego.</p>
+                        <button class="btn">JUGAR</button>
+                    </div>
+                `;
+            } catch (e) { console.error(e); }
         }
 
-        function startGame(mode) {
-            if (!isReady) return;
-            currentGameMode = mode;
+        function startGame(m) {
+            mode = m;
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('game-interface').style.display = 'block';
-            document.getElementById('mode-title').textContent = mode === 'classic' ? 'MODO CLÁSICO' : 'ADIVINA EL AGENTE';
-            document.getElementById('questions-panel').style.display = mode === 'ask' ? 'block' : 'none';
-            document.getElementById('classic-controls').style.display = mode === 'classic' ? 'block' : 'none';
+            document.getElementById('display-mode').textContent = m === 'classic' ? 'MODO CLÁSICO' : 'ADIVINA EL AGENTE';
+            document.getElementById('panel-title').textContent = "Agente Secreto";
             resetGame();
         }
 
-        function backToMenu() {
-            document.getElementById('main-menu').style.display = 'flex';
-            document.getElementById('game-interface').style.display = 'none';
-            isSelectingAgent = false;
-        }
-
-        function enableSelection() {
-            isSelectingAgent = true;
-            document.getElementById('board').classList.add('selecting-mode');
-            document.getElementById('btn-pick').textContent = "Haz clic en un agente...";
-            document.getElementById('btn-pick').disabled = true;
-        }
-
         function resetGame() {
-            qCount = 0; failCount = 0; gameOver = false; isSelectingAgent = false;
-            document.getElementById('board').classList.remove('selecting-mode');
-            document.getElementById('btn-pick').textContent = "Elegir mi Agente";
-            document.getElementById('btn-pick').disabled = false;
-
-            const img = document.getElementById('my-agent-img');
-            const qMark = document.getElementById('q-mark');
-
-            if (currentGameMode === 'ask') {
-                myAgent = agents[Math.floor(Math.random() * agents.length)];
-                img.src = myAgent.displayIcon;
-                img.style.display = 'block';
-                qMark.style.display = 'none';
-                document.getElementById('my-agent-name').textContent = myAgent.displayName;
-            } else {
-                myAgent = null;
-                img.src = "";
-                img.style.display = 'none';
-                qMark.style.display = 'block';
-                document.getElementById('my-agent-name').textContent = "Selecciona uno";
-            }
+            gameOver = false; isPicking = false; qCount = 0; fCount = 0;
+            myAgent = (mode === 'ask') ? agents[Math.floor(Math.random() * agents.length)] : null;
             
-            document.getElementById('q-count').textContent = "0 / 10";
-            document.getElementById('fail-count').textContent = "0 / 3";
-            document.getElementById('history').innerHTML = '';
-            document.getElementById('ask-btn').disabled = false;
+            document.getElementById('stat-q').textContent = "0";
+            document.getElementById('stat-f').textContent = "0";
+            
+            // Corrección: Asegurar que el contenedor principal esté visible en modo 'ask'
+            const askContainer = document.getElementById('ask-interface-container');
+            askContainer.style.display = (mode === 'ask') ? 'block' : 'none';
+            
+            // Corrección: Asegurar que los controles de pregunta vuelvan a aparecer
+            document.getElementById('ask-controls').style.display = 'block';
+            
+            document.getElementById('classic-pick-zone').style.display = (mode === 'classic') ? 'block' : 'none';
             document.getElementById('game-message').style.display = 'none';
-            document.getElementById('reset-area').style.display = 'none';
-            document.getElementById('controls-area').style.display = 'flex';
+            document.getElementById('game-message').className = '';
+            document.getElementById('reset-zone').style.display = (mode === 'classic' || mode === 'ask') ? 'block' : 'none';
+            document.getElementById('q-mark').style.display = 'block';
+            document.getElementById('secret-img').style.display = 'none';
+            document.getElementById('secret-name').textContent = "???";
+            document.getElementById('history-list').innerHTML = '';
             
-            updateSecretVisibility();
+            updateValOptions();
             renderBoard();
         }
 
-        function updateSecretVisibility(reveal = false) {
-            const secretInfo = document.getElementById('secret-info');
-            const titleSecret = document.getElementById('title-secret');
-            if (currentGameMode === 'ask' && !reveal) {
-                secretInfo.style.opacity = '0';
-                secretInfo.style.filter = 'blur(10px)';
-                titleSecret.textContent = "Agente Oculto";
-            } else {
-                secretInfo.style.opacity = '1';
-                secretInfo.style.filter = 'blur(0px)';
-                titleSecret.textContent = "Tu Agente";
-            }
-        }
-
         function renderBoard() {
-            const board = document.getElementById('board');
-            board.innerHTML = '';
-            agents.forEach(agent => {
+            const b = document.getElementById('board');
+            b.innerHTML = '';
+            agents.forEach(a => {
                 const card = document.createElement('div');
                 card.className = 'agent-card';
-                card.innerHTML = `<img src="${agent.displayIcon}"><h3>${agent.displayName}</h3>`;
+                card.innerHTML = `<img src="${a.displayIcon}" width="100%"><br>${a.displayName}`;
                 card.onclick = () => {
-                    if (isSelectingAgent) {
-                        selectMyAgent(agent);
-                    } else {
-                        if (gameOver) return;
-                        if (currentGameMode === 'classic') {
-                            card.classList.toggle('discarded');
-                        } else {
-                            checkGuess(agent, card);
-                        }
+                    if (isPicking) {
+                        myAgent = a; isPicking = false;
+                        document.getElementById('secret-img').src = a.displayIcon;
+                        document.getElementById('secret-img').style.display = 'block';
+                        document.getElementById('q-mark').style.display = 'none';
+                        document.getElementById('secret-name').textContent = a.displayName;
+                        const msg = document.getElementById('game-message');
+                        msg.textContent = "Agente seleccionado";
+                        msg.className = 'msg-info';
+                        msg.style.display = 'block';
+                    } else if (!gameOver) {
+                        if (mode === 'classic') card.classList.toggle('discarded');
+                        else handleGuess(a, card);
                     }
                 };
-                board.appendChild(card);
+                b.appendChild(card);
             });
         }
 
-        function selectMyAgent(agent) {
-            myAgent = agent;
-            isSelectingAgent = false;
-            document.getElementById('board').classList.remove('selecting-mode');
-            
-            const img = document.getElementById('my-agent-img');
-            const qMark = document.getElementById('q-mark');
-            img.src = agent.displayIcon;
-            img.style.display = 'block';
-            qMark.style.display = 'none';
-
-            document.getElementById('my-agent-name').textContent = agent.displayName;
-            document.getElementById('btn-pick').textContent = "Cambiar Agente";
-            document.getElementById('btn-pick').disabled = false;
-        }
-
-        function checkGuess(agent, card) {
-            if (agent.displayName === myAgent.displayName) {
-                gameOver = true;
-                updateSecretVisibility(true);
-                showMessage("¡HAS GANADO!", "msg-win");
-                document.getElementById('controls-area').style.display = 'none';
-                document.getElementById('reset-area').style.display = 'block';
-            } else {
-                failCount++;
-                document.getElementById('fail-count').textContent = `${failCount} / 3`;
+        function handleGuess(a, card) {
+            if (a.displayName === myAgent.displayName) { showEnd(true); } 
+            else {
                 card.classList.add('discarded');
-                addToHistory(`¿Es ${agent.displayName}?`, false);
-                if (failCount >= 3) {
-                    gameOver = true;
-                    updateSecretVisibility(true);
-                    showMessage("DERROTA: Sin intentos", "msg-lose");
-                    document.getElementById('controls-area').style.display = 'none';
-                    document.getElementById('reset-area').style.display = 'block';
-                }
+                fCount++;
+                document.getElementById('stat-f').textContent = fCount;
+                if (fCount >= 3) showEnd(false);
             }
         }
 
         function askQuestion() {
             if (qCount >= 10 || gameOver) return;
-            const catSelect = document.getElementById('question-category');
-            const val = document.getElementById('question-value').value;
-            const catText = catSelect.options[catSelect.selectedIndex].text.replace('...?', '');
-            
             qCount++;
-            document.getElementById('q-count').textContent = `${qCount} / 10`;
-            const extra = agentData[myAgent.displayName];
-            let success = false;
+            document.getElementById('stat-q').textContent = qCount;
+            const cat = document.getElementById('cat-sel').value;
+            const val = document.getElementById('val-sel').value;
+            let result = false;
+
+            if (cat === 'role') result = myAgent.role.displayName === val;
+            else if (cat === 'country') result = agentExtra[myAgent.displayName]?.c === val;
+            else if (cat === 'gender') result = agentExtra[myAgent.displayName]?.g === val;
+
+            const history = document.getElementById('history-list');
+            const row = document.createElement('div');
+            row.className = 'history-row';
+            const label = document.getElementById('cat-sel').options[document.getElementById('cat-sel').selectedIndex].text.replace('...', '');
+            row.innerHTML = `<span>${label} ${val}</span><span class="${result ? 'res-si' : 'res-no'}">${result ? 'SÍ' : 'NO'}</span>`;
+            history.prepend(row);
+
+            if (qCount >= 10 && !gameOver) {
+                const msg = document.getElementById('game-message');
+                msg.textContent = "Sin preguntas. ¡Arriesga!";
+                msg.className = 'msg-info';
+                msg.style.display = 'block';
+            }
+        }
+
+        function showEnd(win) {
+            gameOver = true;
+            const msg = document.getElementById('game-message');
+            msg.textContent = win ? "¡GANASTE!" : `PERDISTE. Era ${myAgent.displayName}`;
+            msg.className = win ? 'msg-win' : 'msg-lose';
+            msg.style.display = 'block';
+            document.getElementById('secret-img').src = myAgent.displayIcon;
+            document.getElementById('secret-img').style.display = 'block';
+            document.getElementById('q-mark').style.display = 'none';
+            document.getElementById('secret-name').textContent = myAgent.displayName;
+            document.getElementById('reset-zone').style.display = 'block';
+            if(mode === 'ask') document.getElementById('ask-controls').style.display = 'none';
+        }
+
+        function startPicking() { 
+            isPicking = true;
+            const msg = document.getElementById('game-message');
+            msg.textContent = "Haz clic en un agente del tablero...";
+            msg.className = 'msg-info';
+            msg.style.display = 'block';
+        }
+
+        function updateValOptions() {
+            const cat = document.getElementById('cat-sel').value;
+            const sel = document.getElementById('val-sel');
+            sel.innerHTML = '';
+            let list = [];
+            if (cat === 'role') list = [...new Set(agents.map(a => a.role.displayName))];
+            else if (cat === 'country') list = [...new Set(Object.values(agentExtra).map(e => e.c))].sort();
+            else if (cat === 'gender') list = ["Masculino", "Femenino", "No Binario", "No Humano"];
+            list.forEach(item => { const o = document.createElement('option'); o.value = item; o.textContent = item; sel.appendChild(o); });
+        }
+
+        // --- LÓGICA MINIJUEGOS ---
+        function startMini(m) {
+            miniMode = m;
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('minigame-interface').style.display = 'block';
+            document.getElementById('mini-title-display').textContent = m.toUpperCase();
+            loadMiniRound();
+        }
+
+        function loadMiniRound() {
+            document.getElementById('mini-msg').style.display = 'none';
+            document.getElementById('mini-msg').className = '';
+            document.getElementById('btn-next').style.display = 'none';
+            document.getElementById('mini-input').value = '';
+            document.getElementById('mini-input-zone').style.display = 'none';
+            document.getElementById('mini-options').style.display = 'none';
+            document.getElementById('mini-img').style.display = 'none';
+            document.getElementById('mini-img').src = '';
             
-            if (catSelect.value === 'role') success = myAgent.role.displayName === val;
-            else if (catSelect.value === 'gender') success = extra.g === val;
-            else if (catSelect.value === 'year') success = extra.y === val;
-            else if (catSelect.value === 'country') success = extra.c === val;
-
-            addToHistory(`${catText} ${val}`, success);
-            if (qCount >= 10) document.getElementById('ask-btn').disabled = true;
+            if (miniMode === 'agente') {
+                const a = agents[Math.floor(Math.random() * agents.length)];
+                miniAns = a.displayName.toLowerCase();
+                let desc = a.description.replace(new RegExp(a.displayName, 'gi'), "Este agente");
+                document.getElementById('mini-clue').innerHTML = `<b>ROL:</b> ${a.role.displayName}<br><br><i>"${desc}"</i>`;
+                document.getElementById('mini-input-zone').style.display = 'block';
+            } 
+            else if (miniMode === 'habilidad') {
+                const a = agents[Math.floor(Math.random() * agents.length)];
+                const ab = a.abilities[Math.floor(Math.random() * a.abilities.length)];
+                miniAns = a.displayName.toLowerCase();
+                document.getElementById('mini-clue').innerHTML = `Habilidad: <b>${ab.displayName}</b><br>¿De qué agente es?`;
+                document.getElementById('mini-input-zone').style.display = 'block';
+            }
+            else if (miniMode === 'mapa') {
+                const m = maps[Math.floor(Math.random() * maps.length)];
+                miniAns = m.displayName.toLowerCase();
+                document.getElementById('mini-img').src = m.displayIcon;
+                document.getElementById('mini-img').style.display = 'block';
+                document.getElementById('mini-clue').textContent = "¿Qué mapa es?";
+                renderMiniOptions(maps.map(x => x.displayName), m.displayName);
+            }
+            else if (miniMode === 'arma') {
+                const w = [{n: "Vandal", p: "2900", c: "25"},{n: "Phantom", p: "2900", c: "30"},{n: "Operator", p: "4700", c: "5"},{n: "Guardian", p: "2250", c: "12"},{n: "Bulldog", p: "2100", c: "24"},{n: "Classic", p: "0", c: "12"},{n: "Ghost", p: "500", c: "15"},{n: "Sheriff", p: "800", c: "6"},{n: "Stinger", p: "950", c: "20"},{n: "Shorty", p: "900", c: "2"}];
+                const pick = w[Math.floor(Math.random() * w.length)];
+                miniAns = pick.n.toLowerCase();
+                document.getElementById('mini-clue').innerHTML = `Precio: <b>${pick.p}</b><br>Cargador: <b>${pick.c} balas</b>`;
+                renderMiniOptions(w.map(x => x.n), pick.n);
+            }
+            else if (miniMode === 'skin') {
+                const s = skins[Math.floor(Math.random() * skins.length)];
+                miniAns = s.displayName.toLowerCase();
+                document.getElementById('mini-img').src = s.displayIcon;
+                document.getElementById('mini-img').style.display = 'block';
+                document.getElementById('mini-clue').textContent = "¿Nombre de la Skin?";
+                document.getElementById('mini-input-zone').style.display = 'block';
+            }
+            else if (miniMode === 'trivia') {
+                const t = [{q: "¿Cual es el nombre real de Viper?", "a": "sabine callas"},{q: "¿De que pais es originario Phoenix?", "a": "reino unido"},{"q": "¿Cual es la identidad legal de Jett?", "a": "han sunwoo"},{"q": "¿Que agente era cocinera antes de unirse al Protocolo?", "a": "jett"},{"q": "¿Cual es el nombre real de Sova?", "a": "sasha novikov"},{"q": "¿De donde proviene Sage?", "a": "china"},{"q": "¿Cual es el nombre real de Sage?", "a": "wei ling ying"},{"q": "¿Que agente es de origen marroqui y se llama Aamir?", "a": "cypher"},{"q": "¿Cual es el nombre real de Raze?", "a": "tayane alves"},{"q": "¿De que ciudad de Brasil es Raze?", "a": "salvador"},{"q": "¿Que agente fue bombero en Boston?", "a": "brimstone"},{"q": "¿Cual es el nombre real de Breach?", "a": "erik torsten"},{"q": "¿Que agente es de Australia y se llama Kirra Foster?", "a": "skye"},{"q": "¿Cual es el nombre real de Chamber?", "a": "vincent fabron"},{"q": "¿De que pais es originario Chamber?", "a": "francia"},{"q": "¿Que agente se llama Efia Danso y es de Ghana?", "a": "astra"},{"q": "¿Cual es la identidad real de Reyna?", "a": "zyanya mondragon"},{"q": "¿Que agente es de Filipinas y se llama Tala Valdez?", "a": "neon"},{"q": "¿Cual es el nombre real de Iso?", "a": "li zhao yu"},{"q": "¿De que pais proviene Harbor?", "a": "india"},{"q": "¿Que agente es un robot de una Tierra alternativa?", "a": "kay/o"},{"q": "¿Cual es el nombre real de Gekko?", "a": "mateo armendariz"},{"q": "¿De que ciudad de EE. UU. es Gekko?", "a": "los angeles"},{"q": "¿Que agente es de Noruega y se llama Iselin?", "a": "deadlock"},{"q": "¿Cual es el pais de origen de Clove?", "a": "escocia"},{"q": "¿Que agente es el lider oficial del Protocolo?", "a": "brimstone"},{"q": "¿Como se llama la organizacion enemiga de la Tierra Omega?", "a": "legion valorant"},{"q": "¿Que agente utiliza criaturas llamadas Dizzy y Wingman?", "a": "gekko"},{"q": "¿De que pais es originario Yoru?", "a": "japon"},{"q": "¿Que agente proviene de Estambul, Turquia?", "a": "fade"},{"q": "¿Que agente utiliza nanobots alemanes?", "a": "killjoy"},{"q": "¿Que numero de agente tiene asignado Killjoy?", "a": "04"},{"q": "¿Que agente es el numero 01?", "a": "brimstone"},{"q": "¿Cual es el numero de agente de Viper?", "a": "02"},{"q": "¿Que tipo de habilidad es gratuita cada ronda?", "a": "habilidad firma"},{"q": "¿Cuantos puntos de definitiva otorga un orbe?", "a": "1"},{"q": "¿Que agente puede revivir a un aliado?", "a": "sage"},{"q": "¿Como se llama la definitiva de Sova?", "a": "furia del cazador"},{"q": "¿Cuanto daño hace un disparo de la ulti de Sova?", "a": "80"},{"q": "¿Cual es la habilidad firma de Jett?", "a": "viento de cola"},{"q": "¿Que agente puede colocar una torreta automatica?", "a": "killjoy"},{"q": "¿Como se llama la definitiva de Killjoy?", "a": "bloqueo"},{"q": "¿Que agente puede suprimir habilidades enemigas?", "a": "kay/o"},{"q": "¿Como se llama el robot de Raze que explota?", "a": "boombot"},{"q": "¿Que agente tiene la definitiva Duelo de Honor 1v1?", "a": "iso"},{"q": "¿Cuanto tarda la Spike en detonar?", "a": "45 segundos"},{"q": "¿Cuanto se tarda en desactivar la Spike completa?", "a": "7 segundos"},{"q": "¿Cuanto tarda la Spike en plantarse?", "a": "4 segundos"},{"q": "¿Cuanto cuesta el rifle Vandal?", "a": "2900"},{"q": "¿Cual es el daño a la cabeza de la Vandal?", "a": "160"},{"q": "¿Cuanto cuesta la Phantom?", "a": "2900"},{"q": "¿Cual es el arma mas cara del juego?", "a": "operator"},{"q": "¿Cuanto daño hace el Operator al cuerpo?", "a": "150"},{"q": "¿Que arma secundaria es gratuita cada ronda?", "a": "classic"},{"q": "¿Cuanto cuesta el revolver Sheriff?", "a": "800"},{"q": "¿Cual es el precio de la Ghost?", "a": "500"},{"q": "¿Cual es el subfusil mas barato?", "a": "stinger"},{"q": "¿Que rifle tiene zoom de 1.5x?", "a": "guardian"},{"q": "¿Cuanto cuesta la Odin?", "a": "3200"},{"q": "¿Que secundaria es una escopeta de 2 disparos?", "a": "shorty"},{"q": "¿Cuanto daño hace un cuchillazo por la espalda?", "a": "150"},{"q": "¿Cual es el limite maximo de creditos?", "a": "9000"},{"q": "¿Cuantos creditos tenes al inicio de cada mitad?", "a": "800"},{"q": "¿Que mapa tiene tres sitios de bomba?", "a": "haven"},{"q": "¿Donde se encuentra el mapa Ascent?", "a": "venecia"},{"q": "¿Que mapa tiene teletransportadores ruidosos?", "a": "bind"},{"q": "¿Donde esta ubicado Icebox?", "a": "rusia"},{"q": "¿Que mapa tiene diseño en H?", "a": "fracture"},{"q": "¿En que pais esta Split?", "a": "japon"},{"q": "¿Que mapa tiene puertas giratorias?", "a": "lotus"},{"q": "¿Donde se encuentra el mapa Pearl?", "a": "lisboa"},{"q": "¿Cual es la fuente de energia poderosa del juego?", "a": "radianita"},{"q": "¿Que equipo brasilero gano el mundial 2022?", "a": "loud"}];
+                const pick = t[Math.floor(Math.random() * t.length)];
+                miniAns = pick.a.toLowerCase();
+                document.getElementById('mini-clue').textContent = pick.q;
+                document.getElementById('mini-input-zone').style.display = 'block';
+            }
         }
 
-        function showMessage(text, className) {
-            const msgBox = document.getElementById('game-message');
-            msgBox.textContent = text;
-            msgBox.className = className;
-            msgBox.style.display = 'block';
-        }
-
-        function addToHistory(text, success) {
-            const hist = document.getElementById('history');
-            const item = document.createElement('div');
-            item.className = 'history-item';
-            item.innerHTML = `<span>${text}</span><span class="${success ? 'hist-yes' : 'hist-no'}">${success ? 'SÍ' : 'NO'}</span>`;
-            hist.prepend(item);
-        }
-
-        function updateOptions() {
-            const cat = document.getElementById('question-category').value;
-            const valSelect = document.getElementById('question-value');
-            valSelect.innerHTML = '';
-            let options = [];
-            if (cat === 'role') options = [...new Set(agents.map(a => a.role.displayName))];
-            else if (cat === 'gender') options = ["Masculino", "Femenino", "Robot"];
-            else if (cat === 'year') options = ["2020", "2021", "2022", "2023", "2024"];
-            else if (cat === 'country') options = [...new Set(Object.values(agentData).map(d => d.c))].sort();
-            
-            options.forEach(opt => {
-                const o = document.createElement('option');
-                o.value = opt; o.textContent = opt;
-                valSelect.appendChild(o);
+        function renderMiniOptions(pool, correct) {
+            const grid = document.getElementById('mini-options');
+            grid.innerHTML = ''; grid.style.display = 'grid';
+            let options = [...new Set(pool)].sort(() => 0.5 - Math.random()).slice(0, 4);
+            if (!options.includes(correct)) options[0] = correct;
+            options.sort().forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'btn'; btn.textContent = opt;
+                btn.onclick = () => showMiniResult(opt.toLowerCase() === correct.toLowerCase(), correct);
+                grid.appendChild(btn);
             });
         }
 
-        initGame();
+        function checkMiniAnswer() {
+            const user = document.getElementById('mini-input').value.trim().toLowerCase();
+            showMiniResult(user === miniAns, miniAns);
+        }
+
+        function showMiniResult(win, correct) {
+            const msg = document.getElementById('mini-msg');
+            msg.textContent = win ? "¡CORRECTO!" : `INCORRECTO. Era: ${correct.toUpperCase()}`;
+            msg.className = win ? "msg-win" : "msg-lose";
+            msg.style.display = 'block';
+            document.getElementById('btn-next').style.display = 'block';
+            document.getElementById('mini-input-zone').style.display = 'none';
+            document.getElementById('mini-options').style.display = 'none';
+        }
+
+        function backToMenu() {
+            document.getElementById('main-menu').style.display = 'flex';
+            document.getElementById('game-interface').style.display = 'none';
+            document.getElementById('minigame-interface').style.display = 'none';
+        }
+
+        init();
     </script>
 </body>
 </html>
