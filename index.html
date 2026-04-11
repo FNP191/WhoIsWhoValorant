@@ -323,17 +323,17 @@
                 document.getElementById('menu-grid').innerHTML = `
                     <div class="mode-card" onclick="startGame('classic')">
                         <h2>Modo Clásico</h2>
-                        <p>Elige tu propio agente secreto. Ahora puedes marcar y desmarcar agentes del tablero.</p>
+                        <p>Juega al ¿quién es quién? con un amigo.</p>
                         <button class="btn">JUGAR</button>
                     </div>
                     <div class="mode-card" onclick="startGame('ask')">
                         <h2>Adivina el Agente</h2>
-                        <p>Adivina el agente secreto de la IA mediante preguntas de atributos.</p>
+                        <p>Adivina el agente secreto mediante preguntas de atributos.</p>
                         <button class="btn">JUGAR</button>
                     </div>
                     <div class="mode-card" onclick="startMini('agente')">
                         <h2>¿Quién es?</h2>
-                        <p>Lee la descripción oficial y adivina de qué agente se trata.</p>
+                        <p>Lee la descripción y adivina de qué agente se trata.</p>
                         <button class="btn">JUGAR</button>
                     </div>
                     <div class="mode-card" onclick="startMini('habilidad')">
@@ -348,7 +348,7 @@
                     </div>
                     <div class="mode-card" onclick="startMini('mapa')">
                         <h2>Mapas</h2>
-                        <p>Identifica el mapa de Valorant solo por su icono de radar.</p>
+                        <p>Identifica el mapa de Valorant solo por su radar.</p>
                         <button class="btn">JUGAR</button>
                     </div>
                     <div class="mode-card" onclick="startMini('skin')">
@@ -494,7 +494,7 @@
             let list = [];
             if (cat === 'role') list = [...new Set(agents.map(a => a.role.displayName))];
             else if (cat === 'country') list = [...new Set(Object.values(agentExtra).map(e => e.c))].sort();
-            else if (cat === 'gender') list = ["Masculino", "Femenino", "No Binario", "No Humano"];
+            else if (cat === 'gender') list = ["Masculino", "Femenino", "No Humano"];
             list.forEach(item => { const o = document.createElement('option'); o.value = item; o.textContent = item; sel.appendChild(o); });
         }
 
