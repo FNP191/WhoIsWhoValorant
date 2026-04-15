@@ -2,7 +2,7 @@ Arreglar flechas.
 Añadir discard mode y respuesta en Adivina el Agente
 Ajustar teclado en el wordle
 Añadir al wordle mapas.
-Separar archivos
+Separar archivos (index, style y script)
 
 
 
